@@ -4,19 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
 
+import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 import org.apache.poi.util.IOUtils;
 
 import java.awt.event.ActionListener;
@@ -40,7 +32,8 @@ public class GUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JFileChooser outputDirChooser = new JFileChooser();
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    JFileChooser outputDirChooser = new JFileChooser();
 					outputDirChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 					outputDirChooser.setCurrentDirectory(new File("H:\\"));
 					if(outputDirChooser.showDialog(null, "Ausgabeverzeichnis auswählen") != JFileChooser.APPROVE_OPTION) {
@@ -85,7 +78,7 @@ public class GUI extends JFrame {
 					if(result.isDirectory()) files = result.listFiles(excel);
 					for(File file : files) {
 						if(file.isDirectory()) continue;
-						File out = new File(GUI.this.outputsDirectory.getAbsolutePath() + "\\" + file.getName() + ".pdf");
+						File out = new File(GUI.this.outputsDirectory.getAbsolutePath() + "/" + file.getName() + ".pdf");
 						GUI.this.fileProcessors.addEntry(new FileEntry(file, out));
 					}
 				};
@@ -124,21 +117,10 @@ public class GUI extends JFrame {
 		final byte[] template;
 		File path = new File(GUI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		File folder = path.getParentFile();
-		template = IOUtils.toByteArray(new FileInputStream(new File(folder.getAbsolutePath() + "\\template.pdf")));
-		fileProcessors = new FileTable(template, new File(outputsDirectory.getAbsolutePath() + "\\all.pdf"));
+		template = IOUtils.toByteArray(new FileInputStream(new File(folder.getAbsolutePath() + "/template.pdf")));
+		fileProcessors = new FileTable(template, new File(outputsDirectory.getAbsolutePath() + "/all.pdf"));
 		JTable fileProcessorTable = new JTable(fileProcessors);
 		main.add(new JScrollPane(fileProcessorTable), BorderLayout.CENTER);
 	}
 }
 
-class ExcelFilter extends FileFilter implements java.io.FileFilter {
-	@Override
-	public boolean accept(File pathname) {
-		return pathname.isDirectory() || pathname.getAbsolutePath().endsWith(".xls") || pathname.getAbsolutePath().endsWith(".xlsx");
-	}
-
-	@Override
-	public String getDescription() {
-		return "MINT-EC Antrag oder Verzeichnis mit Anträgen";
-	}
-}

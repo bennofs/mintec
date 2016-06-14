@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="mintec" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.ear"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.lib.classpath">
+    <fileset dir="${basedir}/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module mintec -->
+  
+  <dirname property="module.mintec.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.mintec" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="mintec.output.dir" value="${module.mintec.basedir}/bin"/>
+  <property name="mintec.testoutput.dir" value="${module.mintec.basedir}/bin"/>
+  
+  <path id="mintec.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="mintec.module.production.classpath">
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="mintec.runtime.production.module.classpath">
+    <pathelement location="${mintec.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="mintec.module.classpath">
+    <pathelement location="${mintec.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="mintec.runtime.module.classpath">
+    <pathelement location="${mintec.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.mintec">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.mintec">
+    <patternset refid="excluded.from.module.mintec"/>
+  </patternset>
+  
+  <path id="mintec.module.sourcepath">
+    <dirset dir="${module.mintec.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.mintec" depends="compile.module.mintec.production,compile.module.mintec.tests" description="Compile module mintec"/>
+  
+  <target name="compile.module.mintec.production" description="Compile module mintec; production classes">
+    <mkdir dir="${mintec.output.dir}"/>
+    <javac destdir="${mintec.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.mintec}"/>
+      <bootclasspath refid="mintec.module.bootclasspath"/>
+      <classpath refid="mintec.module.production.classpath"/>
+      <src refid="mintec.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.mintec"/>
+    </javac>
+    
+    <copy todir="${mintec.output.dir}">
+      <fileset dir="${module.mintec.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.mintec.tests" depends="compile.module.mintec.production" description="compile module mintec; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.mintec" description="cleanup module">
+    <delete dir="${mintec.output.dir}"/>
+    <delete dir="${mintec.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.mintec" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.mintec" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.app:jar" value="${basedir}"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.app.jar" value="${artifacts.temp.dir}/app.jar"/>
+  </target>
+  
+  <target name="artifact.app:jar" depends="init.artifacts, compile.module.mintec" description="Build &#39;app:jar&#39; artifact">
+    <property name="artifact.temp.output.app:jar" value="${artifacts.temp.dir}/app_jar"/>
+    <mkdir dir="${artifact.temp.output.app:jar}"/>
+    <jar destfile="${temp.jar.path.app.jar}" duplicate="preserve" filesetmanifest="merge">
+      <zipfileset dir="${mintec.output.dir}"/>
+      <zipfileset src="${basedir}/lib/junit-4.11.jar"/>
+      <zipfileset src="${basedir}/lib/log4j-1.2.17.jar"/>
+      <zipfileset src="${basedir}/lib/itextpdf-5.5.6.jar"/>
+      <zipfileset src="${basedir}/lib/xmlbeans-2.6.0.jar"/>
+      <zipfileset src="${basedir}/lib/commons-codec-1.9.jar"/>
+      <zipfileset src="${basedir}/lib/poi-3.11-20141221.jar"/>
+      <zipfileset src="${basedir}/lib/commons-logging-1.1.3.jar"/>
+      <zipfileset src="${basedir}/lib/itextpdf-5.5.6-javadoc.jar"/>
+      <zipfileset src="${basedir}/lib/itextpdf-5.5.6-sources.jar"/>
+      <zipfileset src="${basedir}/lib/poi-ooxml-3.11-20141221.jar"/>
+      <zipfileset src="${basedir}/lib/poi-excelant-3.11-20141221.jar"/>
+      <zipfileset src="${basedir}/lib/poi-scratchpad-3.11-20141221.jar"/>
+      <zipfileset src="${basedir}/lib/poi-ooxml-schemas-3.11-20141221.jar"/>
+    </jar>
+    <copy file="${temp.jar.path.app.jar}" tofile="${artifact.temp.output.app:jar}/app.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.app:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.app:jar}"/>
+    <copy todir="${artifact.output.app:jar}">
+      <fileset dir="${artifact.temp.output.app:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
