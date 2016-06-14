@@ -31,10 +31,10 @@ Ordner wie die Jar-Datei des Programms selbst befindet.
 Die Hauptklasse des Programms ist in `src/mintec/GUI.java` zu finden. Hier findet die Initialisierung des
 Programms statt, welche folgende Schritte umfasst:
 
-    * Anzeigen des Dialogs zur Auswahl des Ausgabeverzeichnisses (in main)
-    * Erstellen einer neuen Instanz der GUI-Klasse, womit das Hauptfenster erzeugt wird (in main)
-    * Der Konstruktor der GUI-Klasse erzeugt dann die Bedienelemente und lädt außerdem die Datei `template.pdf`
-      als Vorlage für die Generierung der MINT-EC Zertifikate.
+* Anzeigen des Dialogs zur Auswahl des Ausgabeverzeichnisses (in main)
+* Erstellen einer neuen Instanz der GUI-Klasse, womit das Hauptfenster erzeugt wird (in main)
+* Der Konstruktor der GUI-Klasse erzeugt dann die Bedienelemente und lädt außerdem die Datei `template.pdf`
+  als Vorlage für die Generierung der MINT-EC Zertifikate.
 
 Der eigentliche Code für die Zertifikaterstellung ist auf die beiden Klassen `MintReader` und `MintWriter` aufgeteilt.
 Dabei ist `MintReader` dafür verwantwortlich, die Daten aus der Excel-Datei des Antrags auszulesen und zu verarbeiten.
