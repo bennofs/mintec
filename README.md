@@ -43,3 +43,13 @@ in der Vorlage dafür vorgesehenen Felder eingetragen werden.
 
 Die verbleibenden Klassen sind lediglich dafür zuständig, die Tabelle und den Fortschrittsbalken zu implementieren
 und MintReader/MintWriter für alle ausgewählten Dateien auszuführen.
+
+## Erstellen der JAR-Datei aus dem Quellcode 
+Für das Erstellen verwendet dieses Projekt das ANT-Buildsystem. Das Projekt kann mit folgendem Befehl
+erstellt werden:
+
+```bash
+$ ant all
+```
+
+Alternativ ist im Quellcode auch ein Projekt für die Java-IDE Intellij-IDEA oder Eclipse enthalten.
