@@ -133,7 +133,6 @@ class FileTable extends AbstractTableModel {
 
 	public SwingWorker<Void, FileProcessorResult> process() {
 		if(this.worker != null) {
-			System.out.println("Cancelling");
 			this.worker.cancel(true);
 			this.worker = null;
 		}

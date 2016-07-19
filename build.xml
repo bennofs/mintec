@@ -192,5 +192,18 @@
     <delete dir="${artifacts.temp.dir}"/>
   </target>
   
-  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+  <target name="all" depends="build.modules, build.all.artifacts, javadoc" description="build all"/>
+
+  <target name="javadoc">
+	<taskdef classname="lombok.delombok.ant.Tasks$Delombok" classpath="lib/lombok.jar" name="delombok" />
+	<mkdir dir="doc/src-delomboked" />
+	<delombok verbose="true" encoding="UTF-8" to="doc/src-delomboked" from="src">
+		<format value="suppressWarnings:skip" />
+      <classpath refid="mintec.module.production.classpath"/>
+	</delombok>
+	<mkdir dir="doc/api" />
+    <javadoc sourcepath="doc/src-delomboked" defaultexcludes="yes" destdir="doc/api">
+      <classpath refid="mintec.module.production.classpath"/>
+    </javadoc>
+  </target>
 </project>

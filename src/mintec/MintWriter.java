@@ -13,6 +13,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class MintWriter {
 	PdfReader doc;
@@ -32,7 +33,7 @@ public class MintWriter {
 		setField("Vor- und Nachname", reader.getName());
 		Date d = reader.getDate();
 
-		String dateString = d != null ? new SimpleDateFormat("dd. MMMM yyyy").format(d) : "N/A";
+		String dateString = d != null ? new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMAN).format(d) : "N/A";
 		setField("geboren am Tag / Monat / Jahr", "geboren am " + dateString);
 		setField("Schulbezeichnung", "am Martin-Andersen-Nexö Gymnasium Dresden");
 
