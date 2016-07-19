@@ -1,4 +1,4 @@
-# MINT-EC Zertifikat Generator
+# MINT-EC Zertifikat Generator [![Build Status](https://travis-ci.org/bennofs/mintec-generator.svg?branch=master)](https://travis-ci.org/bennofs/mintec-generator)
 
 Diese Programm dient dazu, aus MINT-EC Zertifikat-Anträgen ein fertiges MINT-EC Zertifikat zu 
 erstellen. Es überträgt die Daten aus einer Excel-Tabelle in die Vorlage für das MINT-EC Zertifikat.
