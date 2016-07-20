@@ -203,7 +203,7 @@
       <classpath refid="mintec.module.production.classpath"/>
 	</delombok>
 	<mkdir dir="doc/api" />
-    <javadoc sourcepath="doc/src-delomboked" defaultexcludes="yes" destdir="doc/api">
+    <javadoc sourcepath="doc/src-delomboked" defaultexcludes="yes" destdir="doc/api" private="true">
       <classpath refid="mintec.module.production.classpath"/>
     </javadoc>
   </target>
