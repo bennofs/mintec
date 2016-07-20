@@ -2,7 +2,7 @@ package mintec;
 
 import java.util.List;
 
-public class FileProcessorResult {
+class FileProcessorResult {
 
 	enum State {
 		OK,
@@ -10,22 +10,22 @@ public class FileProcessorResult {
 		WARN
 	}
 
-	public final String problemsMessage;
-	public final State state;
-	public final int fileId;
+	final String problemsMessage;
+	final State state;
+	final int fileId;
 
-	public FileProcessorResult() {
+	FileProcessorResult() {
 		this.state = null;
 		this.problemsMessage = "";
 		this.fileId = -1;
 	}
 
-	public FileProcessorResult(Exception exception, List<MintReader.Problem> problems, int fileId) {
+	FileProcessorResult(Exception exception, List<MintReader.Problem> problems, int fileId) {
 		State state = State.OK;
 
 		StringBuilder errors = new StringBuilder();
 		StringBuilder warnings = new StringBuilder();
-		if(exception != null) errors.append("Ein-/Ausgabefehler: " + exception.getLocalizedMessage() + "\n");
+		if(exception != null) errors.append("Ein-/Ausgabefehler: ").append(exception.getLocalizedMessage()).append("\n");
 		for(MintReader.Problem problem : problems) {
 			String msg = "Zelle " + problem.column + problem.row + ": " + problem.text + "\n";
 			if(problem.fatal) {

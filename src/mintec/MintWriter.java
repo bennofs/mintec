@@ -22,7 +22,7 @@ import java.util.Locale;
  * Dazu wird eine PDF-Vorlage, welche vom MINT-EC Verein zur Verfügung gestellt wird, verwendet. Diese PDF-Datei besitzt
  * bereits fertige Formularfelder, die bestimmte Textbereiche des Zertifikats kennzeichnen.
  */
-public class MintWriter {
+class MintWriter {
     /** Die Vorlage als PDF-Dokument. */
     private PdfReader doc;
 

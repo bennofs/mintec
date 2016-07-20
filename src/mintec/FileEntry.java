@@ -2,24 +2,24 @@ package mintec;
 
 import java.io.File;
 
-public class FileEntry {
-	public final File inputFile;
-	public final File outputFile;
+class FileEntry {
+	final File inputFile;
+	final File outputFile;
 
 	private FileProcessorResult result;
 
-	public FileEntry(File in, File out) {
+	FileEntry(File in, File out) {
 		super();
 		this.inputFile = in;
 		this.outputFile = out;
 		this.result = new FileProcessorResult();
 	}
 
-	public FileProcessorResult getResult() {
+	FileProcessorResult getResult() {
 		return this.result;
 	}
 
-	public void setResult(FileProcessorResult result) {
+	void setResult(FileProcessorResult result) {
 		this.result = result;
 	}
 }

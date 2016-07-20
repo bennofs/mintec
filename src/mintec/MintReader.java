@@ -19,7 +19,7 @@ import lombok.Getter;
  * Daten bereit. Beim Einlesen wird der Antrag gleichzeitig auf Fehler überprüft (sind alle
  * benötigten Felder ausgefüllt? usw).
  */
-public class MintReader {
+class MintReader {
   /**
    * Konstanten für die Indices der Excel-Spalten.
    *
@@ -28,7 +28,7 @@ public class MintReader {
    * der Excel-Spalten Konstanten definiert, die später anstelle der Indices für die Spalten
    * verwendet werden.
    */
-  @SuppressWarnings("unused")
+  @SuppressWarnings({"unused", "FieldCanBeLocal"})
   private final int A = 1, B = 2, C = 3, D = 4, E = 5, F = 6, G = 7, H = 8;
 
   /** Die Excel-Tabelle des Antrags. */
@@ -68,7 +68,7 @@ public class MintReader {
    * Dieses Feld enthält entweder:
    * <ul>
    * <li> zwei Fächer, für die Option "Zwei Abiturfächer auf erhöhtem Niveau"
-   * <li> drei Fächer, für die Option "Ein Abiturfach auf erhötem Niveau und zwei weitere, in der
+   * <li> drei Fächer, für die Option "Ein Abiturfach auf erhöhtem Niveau und zwei weitere, in der
    *      Qualifikationsphase durchgängig belegte Fächer:"
    * </ul>
    *
@@ -127,7 +127,7 @@ public class MintReader {
    * Diese Liste enthält einfach nur die Namen aller MINT-Aktivitäten aus dem Abschnitt
    * III - "Zusätzliche MINT-Aktivitäten" für die Sekundarstufe 1.
    *
-   * @return Namen der zusätlichen MINT-Aktivitäten für die Sekundarstufe 1
+   * @return Namen der zusätzlichen MINT-Aktivitäten für die Sekundarstufe 1
    */
   @Getter private ArrayList<String> activities1;
 
@@ -137,7 +137,7 @@ public class MintReader {
    * Diese Liste enthält einfach nur die Namen aller MINT-Aktivitäten aus dem Abschnitt
    * III - "Zusätzliche MINT-Aktivitäten" für die Sekundarstufe 2.
    *
-   * @return Namen der zusätlichen MINT-Aktivitäten für die Sekundarstufe 1
+   * @return Namen der zusätzlichen MINT-Aktivitäten für die Sekundarstufe 1
    */
   @Getter private ArrayList<String> activities2;
 
@@ -149,7 +149,7 @@ public class MintReader {
 
   /** Klasse für festgestellte Probleme (entweder Warnung oder Fehler) beim Einlesen. */
   @AllArgsConstructor
-  public class Problem {
+  class Problem {
     /** Die Zeile der Zelle, deren Wert fehlerhaft ist und somit das Problem verursacht. */
     public final int row;
 
@@ -175,7 +175,7 @@ public class MintReader {
      * @param text Ein Text, der das Problem möglichst genau beschreibt.
      * @param fatal Legt fest, ob dies ein kritisches Problem ist. Siehe {@link #fatal}.
      */
-    public Problem(int row, int column, String text, Boolean fatal) {
+    Problem(int row, int column, String text, Boolean fatal) {
       super();
       String columnLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       this.row = row;
@@ -308,7 +308,7 @@ public class MintReader {
         problems.add(new Problem(
           twoSubjectsRows[0],
           textColumn,
-          "Ignoriere überflüssige Daten für Variante „Zwei Abiturfächer auf erhötem Niveau”",
+          "Ignoriere überflüssige Daten für Variante „Zwei Abiturfächer auf erhöhtem Niveau”",
           false
         ));
     } else {
@@ -470,9 +470,10 @@ public class MintReader {
    * @param row Index der Zeile (1-basiert, 1 ist die erste Zeile). Siehe {@link #cellAt}.
    * @return true wenn die Zelle leer ist, sonst false.
    */
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
   private boolean cellEmpty(int column, int row) {
     Cell cell = cellAt(column, row);
-    if(cell.getCellType() == Cell.CELL_TYPE_STRING) {
+    if(cell != null && cell.getCellType() == Cell.CELL_TYPE_STRING) {
       String value = cell.getStringCellValue();
       if(value.trim().isEmpty()) return true;
     }
@@ -482,7 +483,7 @@ public class MintReader {
   /**
    * Liest den Inhalt einer Zelle als Text.
    *
-   * Die Funktion versucht, Fehler möglichst automatisch zu beheben. Falls die Zelle bswp. eine
+   * Die Funktion versucht, Fehler möglichst automatisch zu beheben. Falls die Zelle bspw. eine
    * Zahl enthält, wird kein Fehler generiert, sondern die Zahl als Text zurückgegeben.
    *
    * @param column Index der Spalte (1-basiert, 1 ist die erste Spalte). Siehe {@link #cellAt}.

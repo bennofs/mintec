@@ -21,15 +21,16 @@ import com.itextpdf.text.pdf.PdfReader;
 class FileTable extends AbstractTableModel {
 	private static final long serialVersionUID = -2985648423163667274L;
 
-	private enum Column { STATE, FILE, PROBLEMS };
+	private enum Column { STATE, FILE, PROBLEMS }
+
 	private final static String[] columnNames = { "Status", "Datei", "Probleme" };
 	private final static Column[] columns = Column.values();
-	private List<FileEntry> files;
+	private final List<FileEntry> files;
 	private SwingWorker<Void, FileProcessorResult> worker = null;
-	private byte[] template;
-	private File aggregateDocument;
+	private final byte[] template;
+	private final File aggregateDocument;
 
-	public FileTable(byte[] template, File aggregateDocument) {
+	FileTable(byte[] template, File aggregateDocument) {
 		this.template = template;
 		this.aggregateDocument = aggregateDocument;
 		this.files = new ArrayList<>();
@@ -69,12 +70,12 @@ class FileTable extends AbstractTableModel {
 		throw new RuntimeException("Invalid column");
 	}
 
-	public void addEntry(FileEntry entry) {
+	void addEntry(FileEntry entry) {
 		files.add(entry);
 		fireTableRowsInserted(files.size() - 1, files.size() - 1);
 	}
 
-	class ProcessEntries extends SwingWorker<Void, FileProcessorResult> {
+	private class ProcessEntries extends SwingWorker<Void, FileProcessorResult> {
 		private FileProcessorResult processEntry(int fileId, FileEntry entry) {
 			List<MintReader.Problem> problems = new ArrayList<>();
 			Exception exception = null;
@@ -131,7 +132,7 @@ class FileTable extends AbstractTableModel {
 
 	}
 
-	public SwingWorker<Void, FileProcessorResult> process() {
+	SwingWorker<Void, FileProcessorResult> process() {
 		if(this.worker != null) {
 			this.worker.cancel(true);
 			this.worker = null;

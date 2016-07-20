@@ -6,9 +6,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileFilter;
 
-import com.sun.java.swing.plaf.gtk.GTKLookAndFeel;
 import org.apache.poi.util.IOUtils;
 
 import java.awt.event.ActionListener;
@@ -19,13 +17,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class GUI extends JFrame {
+class GUI extends JFrame {
 
 	private static final long serialVersionUID = -4233818212766136444L;
-	private File outputsDirectory;
+	private final File outputsDirectory;
 	private FileTable fileProcessors;
 
-	private JPanel contentPane;
 	private JProgressBar progressBar;
 
 	public static void main(String[] args) {
@@ -52,20 +49,20 @@ public class GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GUI(File outputsDirectory) throws IOException {
+	private GUI(File outputsDirectory) throws IOException {
 		org.apache.log4j.BasicConfigurator.configure();
 		this.outputsDirectory = outputsDirectory;
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel(new BorderLayout());
+		JPanel contentPane = new JPanel(new BorderLayout());
 		setContentPane(contentPane);
 
 		JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEADING));
 		contentPane.add(controls, BorderLayout.SOUTH);
 
-		JButton btnHinzufgen = new JButton("Hinzufügen");
-		btnHinzufgen.addActionListener(new ActionListener() {
+		JButton btnAdd = new JButton("Hinzufügen");
+		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser inputFile = new JFileChooser();
 				ExcelFilter excel = new ExcelFilter();
@@ -81,11 +78,11 @@ public class GUI extends JFrame {
 						File out = new File(GUI.this.outputsDirectory.getAbsolutePath() + "/" + file.getName() + ".pdf");
 						GUI.this.fileProcessors.addEntry(new FileEntry(file, out));
 					}
-				};
+				}
 
 			}
 		});
-		controls.add(btnHinzufgen);
+		controls.add(btnAdd);
 
 		JButton btnProcess = new JButton("Zertifikate erstellen");
 		btnProcess.addActionListener(new ActionListener() {
