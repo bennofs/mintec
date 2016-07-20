@@ -28,6 +28,9 @@ Ordner wie die Jar-Datei des Programms selbst befindet.
 
 ## Strukturierung des Quellcodes
 
+Das Projekt verwendet [lombok](https://projectlombok.org/) zur automatischen Generierung von u.a. Gettern und Settern.
+Falls eine Java-IDE verwendet wird, muss deshalb möglicherweise ein Plugin für Lombok installiert werden.
+
 Die Hauptklasse des Programms ist in `src/mintec/GUI.java` zu finden. Hier findet die Initialisierung des
 Programms statt, welche folgende Schritte umfasst:
 
@@ -37,14 +40,14 @@ Programms statt, welche folgende Schritte umfasst:
   als Vorlage für die Generierung der MINT-EC Zertifikate.
 
 Der eigentliche Code für die Zertifikaterstellung ist auf die beiden Klassen `MintReader` und `MintWriter` aufgeteilt.
-Dabei ist `MintReader` dafür verwantwortlich, die Daten aus der Excel-Datei des Antrags auszulesen und zu verarbeiten.
+Dabei ist `MintReader` dafür verantwortlich, die Daten aus der Excel-Datei des Antrags auszulesen und zu verarbeiten.
 `MintWriter` erzeugt dann aus diesen Daten und der Vorlage ein fertiges Mint-EC Zertifikat, indem die Daten in die
 in der Vorlage dafür vorgesehenen Felder eingetragen werden.
 
 Die verbleibenden Klassen sind lediglich dafür zuständig, die Tabelle und den Fortschrittsbalken zu implementieren
 und MintReader/MintWriter für alle ausgewählten Dateien auszuführen.
 
-## Erstellen der JAR-Datei aus dem Quellcode 
+## Erstellen der JAR-Datei aus dem Quellcode
 Für das Erstellen verwendet dieses Projekt das ANT-Buildsystem. Das Projekt kann mit folgendem Befehl
 erstellt werden:
 
@@ -53,3 +56,5 @@ $ ant all
 ```
 
 Alternativ ist im Quellcode auch ein Projekt für die Java-IDE Intellij-IDEA oder Eclipse enthalten.
+Da das Projekt Lombok verwendet, muss bei der Verwendung einer Entwicklungsumgebung das Lombok-Plugin
+installiert werden.
