@@ -114,6 +114,7 @@ class GUI extends JFrame {
 		final byte[] template;
 		File path = new File(GUI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		File folder = path.getParentFile();
+		System.out.println(String.format("Loading template from: %s", folder.toString()));
 		template = IOUtils.toByteArray(new FileInputStream(new File(folder.getAbsolutePath() + "/template.pdf")));
 		fileProcessors = new FileTable(template, new File(outputsDirectory.getAbsolutePath() + "/all.pdf"));
 		JTable fileProcessorTable = new JTable(fileProcessors);
