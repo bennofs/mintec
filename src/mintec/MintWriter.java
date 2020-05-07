@@ -55,6 +55,7 @@ class MintWriter {
 		doc = new PdfReader(template);
         stamper = new PdfStamper(doc, result);
 		fields = stamper.getAcroFields();
+		fields.setGenerateAppearances(false);
 
         // Schreibe die Daten in das PDF-Dokument
 		setField("Vor- und Nachname", reader.getName());
@@ -119,7 +120,7 @@ class MintWriter {
      * @throws DocumentException Wenn PDF-Fehler auftreten.
      */
 	void close() throws IOException, DocumentException {
-		stamper.setFormFlattening(true);
+		stamper.setFormFlattening(false);
 		stamper.close();
 		doc.close();
 	}
